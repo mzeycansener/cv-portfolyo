@@ -67,10 +67,12 @@ export function Hero() {
                                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </Button>
                             </a>
-                            <Button variant="outline" size="lg" className="group">
-                                {t.downloadCV}
-                                <Download className="ml-2 h-4 w-4 transition-transform group-hover:-translate-y-1" />
-                            </Button>
+                            <a href="/cv/mehmet_zeycan_sener_cv.pdf" download className="contents">
+                                <Button variant="outline" size="lg" className="group">
+                                    {t.downloadCV}
+                                    <Download className="ml-2 h-4 w-4 transition-transform group-hover:-translate-y-1" />
+                                </Button>
+                            </a>
                         </div>
                     </motion.div>
 
@@ -89,12 +91,12 @@ export function Hero() {
                         <div className="relative z-10 w-full max-w-[450px] aspect-[3/4] group">
                             {/* Animated Border Frame */}
                             <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-primary via-green-700 to-secondary opacity-15 group-hover:opacity-30 blur-sm transition-opacity duration-700" />
-                            
+
                             {/* Main Image Container */}
                             <div className="relative h-full w-full rounded-2xl overflow-hidden border border-white/20 shadow-2xl backdrop-blur-sm bg-white/5">
                                 {/* Ambient Background Gradient inside card */}
                                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 z-10 pointer-events-none" />
-                                
+
                                 <Image
                                     src="/profile.jpg"
                                     alt="Mehmet Zeycan Şener"

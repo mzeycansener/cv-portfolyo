@@ -86,7 +86,7 @@ export function Contact() {
                                 </div>
                                 <div>
                                     <p className="text-sm font-semibold text-muted-foreground mb-1">{t.phone}</p>
-                                    <a href="tel:+905360801009" className="text-xl font-bold text-foreground hover:text-primary transition-colors">+90 536 080 10 09</a>
+                                    <a href="tel:+905360891009" className="text-xl font-bold text-foreground hover:text-primary transition-colors">+90 536 089 10 09</a>
                                 </div>
                             </div>
 
@@ -115,7 +115,7 @@ export function Contact() {
                                         <label className="text-sm font-medium text-foreground">{t.nameLabel}</label>
                                         <input
                                             type="text"
-                                            className="w-full px-4 py-3 rounded-xl bg-white/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/60 cursor-none"
+                                            className="w-full px-4 py-3 rounded-xl bg-white/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/60"
                                             placeholder={t.namePlaceholder}
                                         />
                                     </div>
@@ -123,7 +123,7 @@ export function Contact() {
                                         <label className="text-sm font-medium text-foreground">{t.emailLabel}</label>
                                         <input
                                             type="email"
-                                            className="w-full px-4 py-3 rounded-xl bg-white/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/60 cursor-none"
+                                            className="w-full px-4 py-3 rounded-xl bg-white/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/60"
                                             placeholder={t.emailPlaceholder}
                                         />
                                     </div>
@@ -133,7 +133,7 @@ export function Contact() {
                                     <label className="text-sm font-medium text-foreground">{t.messageLabel}</label>
                                     <textarea
                                         rows={5}
-                                        className="w-full px-4 py-3 rounded-xl bg-white/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none placeholder:text-muted-foreground/60 cursor-none"
+                                        className="w-full px-4 py-3 rounded-xl bg-white/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none placeholder:text-muted-foreground/60"
                                         placeholder={t.messagePlaceholder}
                                     />
                                 </div>

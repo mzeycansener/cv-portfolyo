@@ -49,11 +49,11 @@ const timelineData: TimelineItem[] = [
         title: { tr: "YBS Uzmanı & Full-Stack", en: "MIS Specialist & Full-Stack" },
         organization: { tr: "Freelance", en: "Freelance" },
         image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000",
-        description: { 
+        description: {
             tr: "Node.js ve JavaScript ile ölçeklenebilir backend sistemleri kuruyorum.",
             en: "Building scalable backend systems with Node.js and JavaScript."
         },
-        badges: { 
+        badges: {
             tr: ["Node.js", "MySQL", "System Analysis"],
             en: ["Node.js", "MySQL", "System Analysis"]
         },
@@ -68,23 +68,23 @@ const timelineData: TimelineItem[] = [
         organization: { tr: "Dokuz Eylül Üniversitesi", en: "Dokuz Eylul University" },
         image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000",
         description: {
-            tr: "T-Shaped bir profil inşa ediyorum: teknik derinlik ile kurumsal genişlik arasında köprü kurarak iş teknolojileri mimarisi yaklaşımını benimsiyorum.",
-            en: "Building a T-Shaped profile: bridging technical depth with corporate breadth, adopting a business technology architecture approach."
+            tr: "Yönetim Bilişim Sistemleri (YBS) eğitimi ile işletme, bilişim ve analitik karar alma disiplinlerini harmanlayan disiplinlerarası bir eğitim alıyorum. Program kapsamında veri odaklı iş stratejileri geliştirme, sistem tasarımı ve kurumsal kaynak yönetimi üzerine uzmanlaşmış dersler almaktayım.",
+            en: "I am receiving an interdisciplinary education that blends business, information technology, and analytical decision-making. Within the program, I take specialized courses on developing data-driven business strategies, system design, and enterprise resource management."
         },
         badges: {
-            tr: ["YBS", "DEÜ İşletme Fakültesi", "2022-Günümüz"],
-            en: ["MIS", "DEU Faculty of Business", "2022-Present"]
+            tr: ["YBS", "DEÜ İşletme Fakültesi", "İşletme - Bilişim - Analiz"],
+            en: ["MIS", "DEU Faculty of Business", "Business - IT - Analysis"]
         },
         highlights: {
             tr: [
-                { label: "Analitik Temel", value: "İstatistik I-II · Matematik I-II" },
-                { label: "Teknik Odak", value: "Veritabanı · Nesneye Yönelik Programlama" },
-                { label: "İşletme Vizyonu", value: "Ekonomi · Pazarlama · İnsan Kaynakları" }
+                { label: "Bilişim & Yazılım", value: "Algoritma · Veritabanı · Sistem Analizi · Nesneye Yönelik Programlama" },
+                { label: "Analitik & Karar", value: "İstatistik I-II · Yöneylem Araştırması · Veri Madenciliği" },
+                { label: "İşletme & Strateji", value: "Ekonomi · Pazarlama · Finans · İşletme Hukuku" }
             ],
             en: [
-                { label: "Analytical Core", value: "Statistics I-II · Mathematics I-II" },
-                { label: "Technical Focus", value: "Database · Object-Oriented Programming" },
-                { label: "Business Vision", value: "Economics · Marketing · Human Resources" }
+                { label: "IT & Software", value: "Algorithms · Database · System Analysis · OOP" },
+                { label: "Analytics & Decision", value: "Statistics I-II · Operations Research · Data Mining" },
+                { label: "Business & Strategy", value: "Economics · Marketing · Finance · Business Law" }
             ]
         }
     },
@@ -139,11 +139,11 @@ export function ExperienceTimeline() {
                     whileTap={{ scale: 0.98 }}
                     className="cursor-pointer group relative rounded-2xl overflow-hidden"
                 >
-                    <div 
+                    <div
                         className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500 bg-cover bg-center"
                         style={{ backgroundImage: `url(${item.image})` }}
                     />
-                    
+
                     <GlassCard className="p-6 relative z-10 border border-primary/10 hover:border-primary/30 transition-colors">
                         <div className="flex items-center gap-3 mb-3">
                             <div className="p-2 rounded-lg bg-primary/10 text-primary">
@@ -157,7 +157,7 @@ export function ExperienceTimeline() {
                         <p className="text-muted-foreground text-sm line-clamp-2">
                             {item.description[language]}
                         </p>
-                        
+
                         <div className="mt-4 flex flex-wrap gap-2">
                             {item.badges[language].slice(0, 3).map((badge, idx) => (
                                 <span key={idx} className="px-2 py-1 bg-muted rounded-md text-xs font-medium text-muted-foreground">
@@ -203,13 +203,13 @@ export function ExperienceTimeline() {
                                 </button>
 
                                 <div className="h-48 sm:h-64 relative w-full overflow-hidden shrink-0">
-                                    <img 
-                                        src={selectedItem.image} 
+                                    <img
+                                        src={selectedItem.image}
                                         alt={selectedItem.title[language]}
                                         className="w-full h-full object-cover"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
-                                    
+
                                     <div className="absolute bottom-6 left-6 right-6 flex items-end gap-4">
                                         <div className="p-3 rounded-xl bg-primary/20 text-primary backdrop-blur-md border border-primary/30 hidden sm:block">
                                             {selectedItem.icon}
@@ -259,8 +259,8 @@ export function ExperienceTimeline() {
                                         </h4>
                                         <div className="flex flex-wrap gap-2">
                                             {selectedItem.badges[language].map((badge, idx) => (
-                                                <span 
-                                                    key={idx} 
+                                                <span
+                                                    key={idx}
                                                     className="px-3 py-1.5 bg-secondary text-secondary-foreground rounded-lg text-sm font-semibold"
                                                 >
                                                     {badge}

@@ -280,7 +280,7 @@ export function Projects() {
                             transition={{ delay: idx * 0.1, duration: 0.5 }}
                             className={`group relative ${project.colSpan}`}
                         >
-                            <GlassCard 
+                            <GlassCard
                                 className="h-full flex flex-col justify-between overflow-hidden p-0 border border-border/50 bg-white/40 hover:bg-white/60 transition-colors cursor-pointer group hover:shadow-xl"
                                 onClick={() => setActiveProject(project)}
                             >
@@ -292,10 +292,10 @@ export function Projects() {
                                 {/* Image Placeholder with Gradients */}
                                 <div className={`w-full h-64 sm:h-72 relative overflow-hidden bg-[#f4eee0]`}>
                                     {project.images && project.images.length > 0 && (
-                                        <img 
-                                            src={project.images[0]} 
-                                            alt={project.title} 
-                                            className="absolute inset-0 w-full h-full object-contain opacity-100 group-hover:scale-105 transition-all duration-700" 
+                                        <img
+                                            src={project.images[0]}
+                                            alt={project.title}
+                                            className="absolute inset-0 w-full h-full object-contain opacity-100 group-hover:scale-105 transition-all duration-700"
                                         />
                                     )}
                                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
@@ -364,10 +364,10 @@ export function Projects() {
 
                             {/* Right Side: Content */}
                             <div className="w-full md:w-[45%] lg:w-[40%] flex flex-col h-full bg-white/40 backdrop-blur-xl relative z-20">
-                                
+
                                 <div className="p-6 sm:p-8 md:p-10 pb-6 flex-grow overflow-y-auto">
                                     <h3 className="text-3xl sm:text-4xl font-extrabold mb-4 text-foreground pr-10 tracking-tight leading-tight">{activeProject.title}</h3>
-                                    
+
                                     <div className="flex flex-wrap gap-2 mb-8">
                                         {activeProject.tags.map(tag => (
                                             <Badge key={tag} variant="outline" className="border-primary/20 bg-primary/5 hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-default px-3 py-1">
@@ -375,10 +375,10 @@ export function Projects() {
                                             </Badge>
                                         ))}
                                     </div>
-                                    
+
                                     {/* Tabs */}
                                     <div className="flex gap-6 border-b border-border mb-6">
-                                        <button 
+                                        <button
                                             onClick={() => setActiveTab("overview")}
                                             className={`pb-3 font-medium transition-colors relative ${activeTab === "overview" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
                                         >
@@ -388,7 +388,7 @@ export function Projects() {
                                             )}
                                         </button>
                                         {activeProject.features && activeProject.features[language] && activeProject.features[language].length > 0 && (
-                                            <button 
+                                            <button
                                                 onClick={() => setActiveTab("features")}
                                                 className={`pb-3 font-medium transition-colors relative ${activeTab === "features" ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
                                             >
@@ -403,7 +403,7 @@ export function Projects() {
                                     <div className="relative min-h-[140px]">
                                         <AnimatePresence mode="wait">
                                             {activeTab === "overview" ? (
-                                                <motion.div 
+                                                <motion.div
                                                     key="overview"
                                                     initial={{ opacity: 0, y: 10 }}
                                                     animate={{ opacity: 1, y: 0 }}
@@ -416,7 +416,7 @@ export function Projects() {
                                                     </p>
                                                 </motion.div>
                                             ) : (
-                                                <motion.ul 
+                                                <motion.ul
                                                     key="features"
                                                     initial={{ opacity: 0, y: 10 }}
                                                     animate={{ opacity: 1, y: 0 }}
@@ -440,16 +440,16 @@ export function Projects() {
                                 <div className="p-6 sm:p-8 border-t border-border/50 bg-white/50 backdrop-blur-md shrink-0 flex flex-col sm:flex-row items-center gap-4">
                                     {activeProject.link && (
                                         <a href={activeProject.link} target={activeProject.link === "#" ? "_self" : "_blank"} rel="noopener noreferrer" className="w-full sm:flex-1 group">
-                                            <Button className="w-full h-12 gap-2 text-base font-medium shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300 cursor-none" variant="primary">
-                                                <ExternalLink className="h-4 w-4 group-hover:scale-110 group-hover:rotate-12 transition-transform" /> 
+                                            <Button className="w-full h-12 gap-2 text-base font-medium shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300" variant="primary">
+                                                <ExternalLink className="h-4 w-4 group-hover:scale-110 group-hover:rotate-12 transition-transform" />
                                                 {t.liveDemo}
                                             </Button>
                                         </a>
                                     )}
                                     {activeProject.github && (
                                         <a href={activeProject.github} target={activeProject.github === "#" ? "_self" : "_blank"} rel="noopener noreferrer" className="w-full sm:flex-1 group">
-                                            <Button className="w-full h-12 gap-2 text-base font-medium hover:bg-secondary transition-all duration-300 cursor-none" variant="outline">
-                                                <Github className="h-4 w-4 group-hover:scale-110 transition-transform" /> 
+                                            <Button className="w-full h-12 gap-2 text-base font-medium hover:bg-secondary transition-all duration-300" variant="outline">
+                                                <Github className="h-4 w-4 group-hover:scale-110 transition-transform" />
                                                 {t.sourceCode}
                                             </Button>
                                         </a>

@@ -171,6 +171,8 @@ class App {
     renderer: any; camera: any; scene: any; clock: any;
     touchTexture: TouchTexture; gradientBackground: GradientBackground;
     animationId: number | null = null; container: HTMLElement;
+    resizeObserver: ResizeObserver | null = null;
+    onMoveHandler: ((e: PointerEvent) => void) | null = null;
     constructor(container: HTMLElement) {
         this.container = container;
         this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
@@ -197,11 +199,13 @@ class App {
     init() {
         this.gradientBackground.init();
         const c = this.container;
-        const onMove = (x: number, y: number) => { this.touchTexture.addTouch({ x: x / window.innerWidth, y: 1 - y / window.innerHeight }); };
-        window.addEventListener("pointermove", (e) => onMove(e.clientX, e.clientY));
+        this.onMoveHandler = (e: PointerEvent) => { 
+            this.touchTexture.addTouch({ x: e.clientX / window.innerWidth, y: 1 - e.clientY / window.innerHeight }); 
+        };
+        window.addEventListener("pointermove", this.onMoveHandler);
 
         // Add resize observer instead of just window resize
-        const resizeObserver = new ResizeObserver((entries) => {
+        this.resizeObserver = new ResizeObserver((entries) => {
             for (const entry of entries) {
                 if (entry.target === c) {
                     this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -212,7 +216,7 @@ class App {
             }
         });
 
-        resizeObserver.observe(c);
+        this.resizeObserver.observe(c);
         c.dataset.observerId = "attached";
 
         this.tick();
@@ -229,6 +233,14 @@ class App {
         this.renderer.dispose();
         if (this.container && this.renderer.domElement && this.container.contains(this.renderer.domElement)) {
             this.container.removeChild(this.renderer.domElement);
+        }
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+            this.resizeObserver = null;
+        }
+        if (this.onMoveHandler) {
+            window.removeEventListener("pointermove", this.onMoveHandler);
+            this.onMoveHandler = null;
         }
     }
 }
