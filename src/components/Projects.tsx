@@ -154,13 +154,13 @@ const projects: Project[] = [
 const ImageCarousel = ({ images }: { images: string[] }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const nextImage = (e: React.MouseEvent) => {
-        e.stopPropagation();
+    const nextImage = (e?: React.MouseEvent | React.TouchEvent | Event) => {
+        if (e && 'stopPropagation' in e) e.stopPropagation();
         setCurrentIndex((prev) => (prev + 1) % images.length);
     };
 
-    const prevImage = (e: React.MouseEvent | React.TouchEvent | Event) => {
-        if ('stopPropagation' in e) e.stopPropagation();
+    const prevImage = (e?: React.MouseEvent | React.TouchEvent | Event) => {
+        if (e && 'stopPropagation' in e) e.stopPropagation();
         setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
     };
 
@@ -185,10 +185,10 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
         const isLeftSwipe = distance > minSwipeDistance;
         const isRightSwipe = distance < -minSwipeDistance;
         if (isLeftSwipe) {
-            nextImage(new Event('swipe'));
+            nextImage();
         }
         if (isRightSwipe) {
-            prevImage(new Event('swipe'));
+            prevImage();
         }
     };
 
