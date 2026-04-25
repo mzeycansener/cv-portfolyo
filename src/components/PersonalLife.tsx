@@ -5,7 +5,7 @@ import {
     Camera, Coffee, BookOpen, Music, Heart, Code2, Plane, Mountain,
     ArrowRight
 } from "lucide-react";
-import { useRef, MouseEvent, useState } from "react";
+import { useRef, MouseEvent, useState, useEffect } from "react";
 import { StaggeredScrambleGallery } from "./ui/StaggeredScrambleGallery";
 
 /* ─────────── Hobby Data ─────────── */
@@ -158,6 +158,14 @@ function TiltCard({
     const ref = useRef<HTMLDivElement>(null);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener("resize", check, { passive: true });
+        return () => window.removeEventListener("resize", check);
+    }, []);
 
     const springX = useSpring(x, { stiffness: 200, damping: 25 });
     const springY = useSpring(y, { stiffness: 200, damping: 25 });
@@ -166,6 +174,7 @@ function TiltCard({
     const rotateY = useTransform(springX, [-0.5, 0.5], ["-6deg", "6deg"]);
 
     function handleMouse(e: MouseEvent) {
+        if (isMobile) return;
         const el = ref.current;
         if (!el) return;
         const rect = el.getBoundingClientRect();
@@ -192,8 +201,9 @@ function TiltCard({
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.55, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-            style={{ rotateX, rotateY, transformPerspective: 900 }}
-            className={`relative group cursor-pointer select-none ${item.colSpan} ${item.rowSpan}`}
+            style={isMobile ? {} : { rotateX, rotateY, transformPerspective: 900 }}
+            whileTap={isMobile ? { scale: 0.97 } : {}}
+            className={`relative group cursor-pointer select-none col-span-1 row-span-1 ${item.colSpan} ${item.rowSpan}`}
         >
             {/* Outer glow layer */}
             <div
@@ -202,7 +212,7 @@ function TiltCard({
             />
 
             {/* Card */}
-            <div className="relative h-full rounded-3xl overflow-hidden border border-white/50 bg-white/60 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.06)] group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-shadow duration-500">
+            <div className="relative h-full min-h-[160px] rounded-3xl overflow-hidden border border-white/50 bg-white/60 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.06)] group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-shadow duration-500">
 
                 {/* Background image with zoom + reveal */}
                 <div className="absolute inset-0 z-0">
@@ -240,30 +250,32 @@ function TiltCard({
                 </div>
 
                 {/* Bottom content */}
-                <div className="absolute bottom-0 left-0 right-0 z-20 p-5">
+                <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-5">
                     {/* Animated underline bar */}
                     <div
                         className="h-0.5 w-0 group-hover:w-full mb-3 rounded-full transition-all duration-500 ease-out"
                         style={{ background: `linear-gradient(90deg, ${item.accent}, transparent)` }}
                     />
 
-                    <h3 className="text-xl font-bold tracking-tight text-foreground group-hover:text-white transition-colors duration-400">
+                    <h3 className="text-lg sm:text-xl font-bold tracking-tight text-foreground group-hover:text-white transition-colors duration-400">
                         {item.title}
                     </h3>
 
-                    {/* Description slides up */}
-                    <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
-                        <div className="overflow-hidden">
+                    {/* Description: always visible on mobile, hover-reveal on desktop */}
+                    <div className="md:grid md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] md:transition-[grid-template-rows] md:duration-500">
+                        <div className="md:overflow-hidden">
                             <p className="text-sm mt-1.5 pb-0.5 text-muted-foreground group-hover:text-white/80 transition-colors duration-400 leading-relaxed">
                                 {item.description}
                             </p>
                         </div>
                     </div>
 
-                    {/* Explore arrow */}
-                    <div className="mt-3 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400">
-                        <span className="text-xs font-semibold text-white/90">Click to View Gallery</span>
-                        <ArrowRight className="w-3.5 h-3.5 text-white/90" />
+                    {/* CTA: always visible on mobile, hover-reveal on desktop */}
+                    <div className="mt-3 flex items-center gap-1.5 md:opacity-0 md:group-hover:opacity-100 md:translate-y-2 md:group-hover:translate-y-0 transition-all duration-400">
+                        <span className="text-xs font-semibold text-foreground group-hover:text-white/90 transition-colors">
+                            {isMobile ? 'Dokunarak Galeriyi Gör' : 'Click to View Gallery'}
+                        </span>
+                        <ArrowRight className="w-3.5 h-3.5 text-foreground group-hover:text-white/90 transition-colors" />
                     </div>
                 </div>
             </div>
@@ -286,7 +298,7 @@ export function PersonalLife() {
     const [selectedHobby, setSelectedHobby] = useState<typeof hobbies[0] | null>(null);
 
     return (
-        <section id="personallife" className="py-28 relative overflow-hidden">
+        <section id="personallife" className="py-16 sm:py-28 relative overflow-hidden">
             {/* ── Background Decorations ── */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-green-900/8 rounded-full blur-[120px]" />
@@ -311,14 +323,14 @@ export function PersonalLife() {
                 ))}
             </div>
 
-            <div className="container mx-auto px-6 relative z-10 max-w-6xl">
+            <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-6xl">
                 {/* ── Section Header ── */}
                 <motion.div
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className="mb-16 text-center max-w-2xl mx-auto"
+                    className="mb-10 sm:mb-16 text-center max-w-2xl mx-auto"
                 >
                     {/* Pill badge */}
                     <motion.div
@@ -332,7 +344,7 @@ export function PersonalLife() {
                         Beyond the Code
                     </motion.div>
 
-                    <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground mb-5 leading-[1.08]">
+                    <h2 className="text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight text-foreground mb-5 leading-[1.08]">
                         Personal Life{" "}
                         <span className="relative inline-block">
                             <span className="relative z-10 bg-gradient-to-r from-green-700 via-green-600 to-green-800 bg-clip-text text-transparent">
@@ -366,18 +378,18 @@ export function PersonalLife() {
                         </span>
                     </h2>
 
-                    <p className="text-muted-foreground text-lg leading-relaxed">
+                    <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
                         When I'm not writing code or designing systems, I love to explore the world around me. Click on a category to explore my gallery.
                     </p>
                 </motion.div>
 
                 {/* ── Bento Grid ── */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[190px]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 auto-rows-[150px] sm:auto-rows-[180px] md:auto-rows-[190px]">
                     {hobbies.map((item, i) => (
-                        <TiltCard 
-                            key={item.id} 
-                            item={item} 
-                            index={i} 
+                        <TiltCard
+                            key={item.id}
+                            item={item}
+                            index={i}
                             onClick={() => setSelectedHobby(item)}
                         />
                     ))}
@@ -385,7 +397,7 @@ export function PersonalLife() {
             </div>
 
             {/* ── 3D Staggered Scramble Gallery Modal ── */}
-            <StaggeredScrambleGallery 
+            <StaggeredScrambleGallery
                 isOpen={!!selectedHobby}
                 onClose={() => setSelectedHobby(null)}
                 images={selectedHobby?.galleryImages || []}

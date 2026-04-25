@@ -47,14 +47,14 @@ export function Contact() {
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/20 rounded-full blur-[100px] pointer-events-none" />
 
-            <div className="container mx-auto px-6 relative z-10 max-w-6xl">
+            <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-6xl">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">{t.title}</h2>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">{t.title}</h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
                         {t.subtitle}
                     </p>
@@ -70,33 +70,35 @@ export function Contact() {
                         className="flex flex-col space-y-8 justify-center"
                     >
                         <GlassCard hoverEffect={false} className="border-none shadow-none bg-transparent p-0">
-                            <div className="flex items-center space-x-6 mb-8 group">
-                                <div className="bg-white/50 p-4 rounded-xl border border-white/20 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors">
-                                    <Mail className="w-8 h-8 text-primary" />
+                            <div className="flex items-center space-x-4 sm:space-x-6 mb-6 sm:mb-8 group">
+                                <div className="bg-white/50 p-3 sm:p-4 rounded-xl border border-white/20 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
+                                    <Mail className="w-6 sm:w-8 h-6 sm:h-8 text-primary" />
                                 </div>
-                                <div>
+                                <div className="min-w-0">
                                     <p className="text-sm font-semibold text-muted-foreground mb-1">{t.email}</p>
-                                    <a href="mailto:mzeycansener@gmail.com" className="text-xl font-bold text-foreground hover:text-primary transition-colors">mzeycansener@gmail.com</a>
+                                    <a href="mailto:mzeycansener@gmail.com" className="text-base sm:text-xl font-bold text-foreground hover:text-primary transition-colors break-all">
+                                        mzeycansener@gmail.com
+                                    </a>
                                 </div>
                             </div>
 
-                            <div className="flex items-center space-x-6 mb-8 group">
-                                <div className="bg-white/50 p-4 rounded-xl border border-white/20 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors">
-                                    <Phone className="w-8 h-8 text-primary" />
+                            <div className="flex items-center space-x-4 sm:space-x-6 mb-6 sm:mb-8 group">
+                                <div className="bg-white/50 p-3 sm:p-4 rounded-xl border border-white/20 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
+                                    <Phone className="w-6 sm:w-8 h-6 sm:h-8 text-primary" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-semibold text-muted-foreground mb-1">{t.phone}</p>
-                                    <a href="tel:+905360891009" className="text-xl font-bold text-foreground hover:text-primary transition-colors">+90 536 089 10 09</a>
+                                    <a href="tel:+905360891009" className="text-base sm:text-xl font-bold text-foreground hover:text-primary transition-colors">+90 536 089 10 09</a>
                                 </div>
                             </div>
 
-                            <div className="flex items-center space-x-6 group">
-                                <div className="bg-white/50 p-4 rounded-xl border border-white/20 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors">
-                                    <MapPin className="w-8 h-8 text-primary" />
+                            <div className="flex items-center space-x-4 sm:space-x-6 group">
+                                <div className="bg-white/50 p-3 sm:p-4 rounded-xl border border-white/20 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
+                                    <MapPin className="w-6 sm:w-8 h-6 sm:h-8 text-primary" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-semibold text-muted-foreground mb-1">{t.location}</p>
-                                    <p className="text-xl font-bold text-foreground">{t.city}</p>
+                                    <p className="text-base sm:text-xl font-bold text-foreground">{t.city}</p>
                                 </div>
                             </div>
                         </GlassCard>

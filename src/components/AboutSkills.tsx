@@ -1,7 +1,19 @@
 "use client";
 
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+
+/* ─── Shared mobile detection hook ─── */
+function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768);
+        check();
+        window.addEventListener("resize", check, { passive: true });
+        return () => window.removeEventListener("resize", check);
+    }, []);
+    return isMobile;
+}
 import { FlowingMenu } from "./ui/FlowingMenu";
 import {
     X, Plus, Database, Code2, PenTool, Lightbulb, PieChart, GraduationCap, Guitar,
@@ -51,13 +63,16 @@ function MergeableGridItem({
     index,
     isDimmed,
     onHover,
+    onTap,
 }: {
     card: typeof cards[0];
     index: number;
     isDimmed: boolean;
     onHover: () => void;
+    onTap: () => void;
 }) {
     const { language } = useLanguage();
+    const isMobile = useIsMobile();
 
     return (
         <motion.div
@@ -66,8 +81,9 @@ function MergeableGridItem({
             initial="hidden"
             animate="visible"
             exit="exit"
-            onMouseEnter={onHover}
-            style={{ borderRadius: 14, cursor: "default" }}
+            onMouseEnter={isMobile ? undefined : onHover}
+            onClick={isMobile ? onTap : undefined}
+            style={{ borderRadius: 14, cursor: isMobile ? "pointer" : "default" }}
             className={`relative overflow-hidden w-full h-full pointer-events-auto transition-opacity duration-300 ${isDimmed ? "opacity-30" : ""}`}
         >
             <img
@@ -82,12 +98,18 @@ function MergeableGridItem({
                     <h3 className="text-white text-sm font-bold leading-tight">{card.title[language]}</h3>
                 </div>
                 <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 border border-white/20 text-white shrink-0"
+                    className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10 border border-white/20 text-white shrink-0 active:scale-90 transition-transform"
                     style={{ boxShadow: `0 0 12px ${card.accent}44` }}
                 >
                     <Plus className="w-4 h-4 opacity-60" />
                 </div>
             </div>
+            {/* Mobile tap ripple indicator */}
+            {isMobile && (
+                <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-black/30 backdrop-blur-sm text-white text-[9px] font-bold uppercase tracking-widest">
+                    TAP
+                </div>
+            )}
         </motion.div>
     );
 }
@@ -106,7 +128,7 @@ function DetailPanel({
     return (
         <div
             style={{ borderRadius: 20 }}
-            className="relative overflow-hidden w-full h-full min-h-[520px]"
+            className="relative overflow-hidden w-full h-full min-h-[360px] sm:min-h-[520px]"
         >
             <img
                 src={card.image}
@@ -232,7 +254,7 @@ function TShapedSkills() {
             </p>
 
             {/* Category tabs — Segmented pill design */}
-            <div className="inline-flex bg-secondary/40 backdrop-blur-md border border-border/40 rounded-2xl p-1.5 flex-wrap gap-1 mb-10 shadow-inner">
+            <div className="flex bg-secondary/40 backdrop-blur-md border border-border/40 rounded-2xl p-1.5 gap-1 mb-6 sm:mb-10 shadow-inner overflow-x-auto no-scrollbar">
                 {skillCategories.map((cat) => {
                     const CatIcon = cat.icon;
                     const isActive = cat.id === activeCategory;
@@ -240,14 +262,14 @@ function TShapedSkills() {
                         <button
                             key={cat.id}
                             onClick={() => handleCategoryChange(cat.id)}
-                            className={`relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                            className={`relative flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap shrink-0 ${
                                 isActive
                                     ? "text-white shadow-lg"
                                     : "text-muted-foreground hover:text-foreground hover:bg-white/40"
                             }`}
                             style={isActive ? { background: `linear-gradient(135deg, ${cat.accent}ee, ${cat.accent}99)`, boxShadow: `0 4px 14px -4px ${cat.accent}66` } : {}}
                         >
-                            <CatIcon className={`w-3.5 h-3.5 transition-transform duration-300 ${isActive ? "scale-110" : ""}`} />
+                            <CatIcon className={`w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform duration-300 ${isActive ? "scale-110" : ""}`} />
                             {cat.label[language]}
                         </button>
                     );
@@ -255,7 +277,7 @@ function TShapedSkills() {
             </div>
 
             {/* Layout Container */}
-            <div className="grid md:grid-cols-12 gap-6 items-stretch">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 items-stretch">
                 {/* Details Section */}
                 <div className="md:col-span-6 flex">
                     <AnimatePresence mode="wait">
@@ -378,7 +400,7 @@ function TShapedSkills() {
                             transition={{ duration: 0.3 }}
                         >
                             <div
-                                style={{ height: '450px', position: 'relative', borderRadius: 32, overflow: 'hidden',
+                                style={{ height: 'clamp(280px, 55vw, 450px)', position: 'relative', borderRadius: 32, overflow: 'hidden',
                                     background: `linear-gradient(160deg, #f9f6f0 0%, ${active.accent}10 100%)`,
                                     border: `1px solid ${active.accent}25`,
                                     boxShadow: `0 8px 32px -8px ${active.accent}22`
@@ -518,27 +540,33 @@ const detailVariants = {
 
 export function AboutSkills() {
     const [hoveredId, setHoveredId] = useState<string | null>(null);
+    const [mobileModalId, setMobileModalId] = useState<string | null>(null);
     const { language } = useLanguage();
+    const isMobile = useIsMobile();
 
     const leftCards = cards.slice(0, 4);
     const rightCards = cards.slice(4, 8);
 
-    const hoveredCard = cards.find((c) => c.id === hoveredId) ?? null;
-    const isLeftHovered = hoveredCard ? leftCards.some((c) => c.id === hoveredId) : false;
-    const isRightHovered = hoveredCard ? rightCards.some((c) => c.id === hoveredId) : false;
+    // On mobile, use mobileModalId; on desktop, use hoveredId
+    const activeId = isMobile ? mobileModalId : hoveredId;
+    const hoveredCard = cards.find((c) => c.id === activeId) ?? null;
+    const isLeftHovered = hoveredCard ? leftCards.some((c) => c.id === activeId) : false;
+    const isRightHovered = hoveredCard ? rightCards.some((c) => c.id === activeId) : false;
+
+    const closeMobileModal = useCallback(() => setMobileModalId(null), []);
 
     const t = {
         tr: {
             profile: "Profil",
             whoami: "Ben kimim?",
             detailed: "Detaylı görünümdesiniz.",
-            explore: "Bir karta tıklayarak daha fazlasını keşfedin."
+            explore: isMobile ? "Bir karta dokunarak keşfet." : "Bir kartın üzerine gel."
         },
         en: {
             profile: "Profile",
             whoami: "Who am I?",
             detailed: "Detailed view active.",
-            explore: "Click a card to discover more."
+            explore: isMobile ? "Tap a card to discover more." : "Hover over a card to discover more."
         }
     }[language];
 
@@ -553,16 +581,16 @@ export function AboutSkills() {
                 }}
             />
 
-            <div className="container mx-auto px-6 relative z-10 max-w-6xl">
+            <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-6xl">
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mb-14"
+                    className="mb-8 sm:mb-14"
                 >
                     <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary mb-3">{t.profile}</p>
-                    <h2 className="text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
                         {t.whoami}
                     </h2>
                     <p className="text-muted-foreground mt-3 text-base max-w-xl">
@@ -574,75 +602,106 @@ export function AboutSkills() {
 
                 {/* 2x2 Morphing Grid Layout */}
                 <div
-                    className="flex md:flex-row flex-col gap-6 items-stretch min-h-[560px] w-full"
-                    onMouseLeave={() => setHoveredId(null)}
+                    className="flex md:flex-row flex-col gap-4 sm:gap-6 items-stretch min-h-[300px] sm:min-h-[420px] md:min-h-[560px] w-full"
+                    onMouseLeave={isMobile ? undefined : () => setHoveredId(null)}
                 >
                     {/* LEFT SIDE */}
-                    <div className="relative w-full md:w-1/2 flex-shrink-0 min-h-[560px]">
+                    <div className="relative w-full md:w-1/2 flex-shrink-0 min-h-[300px] sm:min-h-[420px] md:min-h-[560px]">
                         {/* 4 Cards Grid */}
                         <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-3 pointer-events-none">
                             <AnimatePresence>
-                                {!isRightHovered && leftCards.map((card, i) => (
+                                {(!isRightHovered || isMobile) && leftCards.map((card, i) => (
                                     <MergeableGridItem
                                         key={card.id}
                                         card={card}
                                         index={i}
-                                        isDimmed={!!hoveredId && hoveredId !== card.id}
+                                        isDimmed={!isMobile && !!hoveredId && hoveredId !== card.id}
                                         onHover={() => setHoveredId(card.id)}
+                                        onTap={() => setMobileModalId(card.id)}
                                     />
                                 ))}
                             </AnimatePresence>
                         </div>
-                        {/* Morphed Detail Panel */}
-                        <AnimatePresence>
-                            {isRightHovered && hoveredCard && (
-                                <motion.div
-                                    key="left-detail"
-                                    variants={detailVariants}
-                                    initial="hidden"
-                                    animate="visible"
-                                    exit="exit"
-                                    className="absolute inset-0 w-full h-full pointer-events-auto z-10"
-                                >
-                                    <DetailPanel card={hoveredCard} onClose={() => setHoveredId(null)} />
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                        {/* Morphed Detail Panel — desktop only */}
+                        {!isMobile && (
+                            <AnimatePresence>
+                                {isRightHovered && hoveredCard && (
+                                    <motion.div
+                                        key="left-detail"
+                                        variants={detailVariants}
+                                        initial="hidden"
+                                        animate="visible"
+                                        exit="exit"
+                                        className="absolute inset-0 w-full h-full pointer-events-auto z-10"
+                                    >
+                                        <DetailPanel card={hoveredCard} onClose={() => setHoveredId(null)} />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        )}
                     </div>
 
                     {/* RIGHT SIDE */}
-                    <div className="relative w-full md:w-1/2 flex-shrink-0 min-h-[560px]">
+                    <div className="relative w-full md:w-1/2 flex-shrink-0 min-h-[300px] sm:min-h-[420px] md:min-h-[560px]">
                         {/* 4 Cards Grid */}
                         <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-3 pointer-events-none">
                             <AnimatePresence>
-                                {!isLeftHovered && rightCards.map((card, i) => (
+                                {(!isLeftHovered || isMobile) && rightCards.map((card, i) => (
                                     <MergeableGridItem
                                         key={card.id}
                                         card={card}
                                         index={i}
-                                        isDimmed={!!hoveredId && hoveredId !== card.id}
+                                        isDimmed={!isMobile && !!hoveredId && hoveredId !== card.id}
                                         onHover={() => setHoveredId(card.id)}
+                                        onTap={() => setMobileModalId(card.id)}
                                     />
                                 ))}
                             </AnimatePresence>
                         </div>
-                        {/* Morphed Detail Panel */}
-                        <AnimatePresence>
-                            {isLeftHovered && hoveredCard && (
-                                <motion.div
-                                    key="right-detail"
-                                    variants={detailVariants}
-                                    initial="hidden"
-                                    animate="visible"
-                                    exit="exit"
-                                    className="absolute inset-0 w-full h-full pointer-events-auto z-10"
-                                >
-                                    <DetailPanel card={hoveredCard} onClose={() => setHoveredId(null)} />
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                        {/* Morphed Detail Panel — desktop only */}
+                        {!isMobile && (
+                            <AnimatePresence>
+                                {isLeftHovered && hoveredCard && (
+                                    <motion.div
+                                        key="right-detail"
+                                        variants={detailVariants}
+                                        initial="hidden"
+                                        animate="visible"
+                                        exit="exit"
+                                        className="absolute inset-0 w-full h-full pointer-events-auto z-10"
+                                    >
+                                        <DetailPanel card={hoveredCard} onClose={() => setHoveredId(null)} />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        )}
                     </div>
                 </div>
+
+                {/* Mobile Full-Screen Card Modal */}
+                <AnimatePresence>
+                    {isMobile && mobileModalId && hoveredCard && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm flex items-end"
+                            onClick={closeMobileModal}
+                        >
+                            <motion.div
+                                initial={{ y: "100%" }}
+                                animate={{ y: 0 }}
+                                exit={{ y: "100%" }}
+                                transition={{ type: "spring", damping: 30, stiffness: 350 }}
+                                onClick={(e) => e.stopPropagation()}
+                                className="w-full max-h-[85vh] overflow-y-auto rounded-t-3xl"
+                                style={{ touchAction: "pan-y" }}
+                            >
+                                <DetailPanel card={hoveredCard} onClose={closeMobileModal} />
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Bridge Persona */}
                 <BridgePersona />

@@ -42,6 +42,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Prevent horizontal scrolling on mobile */
+  overflow-x: hidden;
 }
 
 body {
@@ -58,6 +60,8 @@ body {
     radial-gradient(at 100% 0%,  hsla(42, 33%, 89%, 0.5)    0px, transparent 55%),
     radial-gradient(at 50% 100%, hsla(113, 20%, 90%, 0.4)   0px, transparent 55%);
   background-attachment: fixed;
+  /* Safe area insets for notch/bottom bar on mobile */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 /* Text selection color */

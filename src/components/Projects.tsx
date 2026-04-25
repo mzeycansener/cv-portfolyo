@@ -159,9 +159,37 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
         setCurrentIndex((prev) => (prev + 1) % images.length);
     };
 
-    const prevImage = (e: React.MouseEvent) => {
-        e.stopPropagation();
+    const prevImage = (e: React.MouseEvent | React.TouchEvent | Event) => {
+        if ('stopPropagation' in e) e.stopPropagation();
         setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    };
+
+    // Touch swipe handling
+    const [touchStart, setTouchStart] = useState<number | null>(null);
+    const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+    const minSwipeDistance = 50;
+
+    const onTouchStart = (e: React.TouchEvent) => {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const onTouchMove = (e: React.TouchEvent) => {
+        setTouchEnd(e.targetTouches[0].clientX);
+    };
+
+    const onTouchEnd = () => {
+        if (!touchStart || !touchEnd) return;
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > minSwipeDistance;
+        const isRightSwipe = distance < -minSwipeDistance;
+        if (isLeftSwipe) {
+            nextImage(new Event('swipe'));
+        }
+        if (isRightSwipe) {
+            prevImage(new Event('swipe'));
+        }
     };
 
     if (!images || images.length === 0) {
@@ -173,7 +201,13 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
     }
 
     return (
-        <div className="relative w-full h-full group bg-[#f4eee0]" onClick={(e) => e.stopPropagation()}>
+        <div 
+            className="relative w-full h-full group bg-[#f4eee0]" 
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+        >
             <AnimatePresence mode="wait">
                 <motion.img
                     key={currentIndex}
@@ -191,14 +225,14 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
                 <>
                     <button
                         onClick={prevImage}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-black/40 hover:bg-black/60 backdrop-blur-md text-white rounded-full opacity-0 group-hover:opacity-100 transition-all transform hover:scale-110"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-black/40 hover:bg-black/60 backdrop-blur-md text-white rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all transform md:hover:scale-110 active:scale-95"
                         aria-label="Previous image"
                     >
                         <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                     <button
                         onClick={nextImage}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-black/40 hover:bg-black/60 backdrop-blur-md text-white rounded-full opacity-0 group-hover:opacity-100 transition-all transform hover:scale-110"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 sm:p-3 bg-black/40 hover:bg-black/60 backdrop-blur-md text-white rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all transform md:hover:scale-110 active:scale-95"
                         aria-label="Next image"
                     >
                         <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -259,14 +293,14 @@ export function Projects() {
 
     return (
         <section id="projects" className="py-24 relative">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-4 sm:px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     className="mb-16"
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">{t.sectionTitle}</h2>
+                    <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight mb-4">{t.sectionTitle}</h2>
                     <p className="text-muted-foreground text-lg max-w-2xl">{t.sectionDesc}</p>
                 </motion.div>
 
@@ -305,9 +339,9 @@ export function Projects() {
                                     />
                                 </div>
 
-                                <div className="p-6 md:p-8 flex-grow flex flex-col justify-between relative z-10 bg-white/50 backdrop-blur-xl border-t border-white/20">
+                                <div className="p-4 sm:p-6 md:p-8 flex-grow flex flex-col justify-between relative z-10 bg-white/50 backdrop-blur-xl border-t border-white/20">
                                     <div>
-                                        <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">{project.title}</h3>
+                                        <h3 className="text-xl sm:text-2xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">{project.title}</h3>
                                         <p className="text-muted-foreground mb-6 line-clamp-2 md:line-clamp-3 leading-relaxed">{project.description[language]}</p>
                                     </div>
 

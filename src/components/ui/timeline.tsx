@@ -55,7 +55,7 @@ function TimelineItem({ item, index }: { item: TimelineEntry; index: number }) {
             </div>
 
             {/* Right: card content */}
-            <div className="relative pl-20 pr-4 md:pl-4 w-full">
+            <div className="relative pl-14 sm:pl-20 pr-2 sm:pr-4 md:pl-4 w-full">
                 {/* Mobile year */}
                 <motion.h3
                     className="md:hidden block text-3xl mb-4 text-left font-extrabold tracking-tight"
@@ -106,8 +106,8 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
     return (
         <div className="w-full font-sans md:px-10" ref={containerRef}>
-            <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-                <h2 className="text-3xl md:text-5xl mb-4 font-bold tracking-tight text-foreground max-w-4xl">
+            <div className="max-w-7xl mx-auto py-12 sm:py-20 px-4 md:px-8 lg:px-10">
+                <h2 className="text-2xl sm:text-3xl md:text-5xl mb-4 font-bold tracking-tight text-foreground max-w-4xl">
                     Experience &amp; Education
                 </h2>
                 <p className="text-muted-foreground text-sm md:text-lg max-w-sm">

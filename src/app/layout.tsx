@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Component as LiquidGradient } from "@/components/ui/flow-gradient-hero-section";
@@ -42,6 +42,17 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4eee0" },
+    { media: "(prefers-color-scheme: dark)", color: "#1e3f22" },
+  ],
 };
 
 export default function RootLayout({

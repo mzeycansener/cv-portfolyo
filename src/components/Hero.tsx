@@ -33,42 +33,42 @@ export function Hero() {
 
     return (
         <section className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden">
-            {/* Background Decorative Elements - using opacity-only for GPU compositing */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/15 rounded-full blur-[80px] pointer-events-none" />
-            <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/30 rounded-full blur-[100px] pointer-events-none" />
+            {/* Background Decorative Elements */}
+            <div className="absolute top-1/4 left-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-primary/15 rounded-full blur-[80px] pointer-events-none" />
+            <div className="absolute bottom-1/4 right-1/4 w-80 sm:w-[500px] h-80 sm:h-[500px] bg-secondary/30 rounded-full blur-[100px] pointer-events-none" />
 
-            <div className="container mx-auto px-6 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="container mx-auto px-4 sm:px-6 relative z-10 pt-24 pb-12 sm:pt-0 sm:pb-0">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                         style={{ willChange: 'transform, opacity' }}
-                        className="flex flex-col space-y-6"
+                        className="flex flex-col space-y-4 sm:space-y-6 text-center lg:text-left"
                     >
 
-                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground leading-[1.1]">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.1]">
                             {t.title1}{" "}<span className="text-primary">{t.titleHighlight}</span>{" "}{t.title2}
                         </h1>
 
-                        <p className="text-base md:text-lg text-foreground/70 font-medium max-w-lg leading-relaxed border-l-4 border-primary/40 pl-4 italic">
+                        <p className="text-sm sm:text-base md:text-lg text-foreground/70 font-medium max-w-lg leading-relaxed border-l-4 border-primary/40 pl-4 italic mx-auto lg:mx-0">
                             Mehmet Zeycan Şener — Business Technology Architect
                         </p>
 
-                        <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed mt-4">
+                        <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed mx-auto lg:mx-0">
                             {t.description}
                         </p>
 
-                        <div className="flex flex-wrap items-center gap-4 pt-6">
-                            <a href="#projects" className="contents">
-                                <Button size="lg" className="group">
+                        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 pt-2 sm:pt-4 justify-center lg:justify-start">
+                            <a href="#projects" className="w-full sm:w-auto">
+                                <Button size="lg" className="group w-full sm:w-auto">
                                     {t.viewWork}
                                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </Button>
                             </a>
-                            <a href="/cv/mehmet_zeycan_sener_cv.pdf" download className="contents">
-                                <Button variant="outline" size="lg" className="group">
+                            <a href="/cv/mehmet_zeycan_sener_cv.pdf" download className="w-full sm:w-auto">
+                                <Button variant="outline" size="lg" className="group w-full sm:w-auto">
                                     {t.downloadCV}
                                     <Download className="ml-2 h-4 w-4 transition-transform group-hover:-translate-y-1" />
                                 </Button>
@@ -82,13 +82,13 @@ export function Hero() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
                         style={{ willChange: 'transform, opacity' }}
-                        className="relative lg:h-[650px] w-full hidden lg:flex items-center justify-center p-8"
+                        className="relative flex items-center justify-center p-4 sm:p-8 lg:h-[650px]"
                     >
                         {/* Decorative Background Glows */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/10 rounded-full blur-[120px] pointer-events-none opacity-50" />
                         <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/20 rounded-full blur-[80px] pointer-events-none" />
 
-                        <div className="relative z-10 w-full max-w-[450px] aspect-[3/4] group">
+                        <div className="relative z-10 w-full max-w-[260px] sm:max-w-[350px] lg:max-w-[450px] aspect-[3/4] group">
                             {/* Animated Border Frame */}
                             <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-primary via-green-700 to-secondary opacity-15 group-hover:opacity-30 blur-sm transition-opacity duration-700" />
 
