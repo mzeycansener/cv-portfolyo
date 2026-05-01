@@ -212,7 +212,7 @@ function TiltCard({
             />
 
             {/* Card */}
-            <div className="relative h-full min-h-[160px] rounded-3xl overflow-hidden border border-white/50 bg-white/60 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.06)] group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-shadow duration-500">
+            <div className="relative h-full min-h-[160px] rounded-3xl overflow-hidden border border-white/50 dark:border-white/10 bg-white/60 dark:bg-black/40 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.06)] group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.12)] transition-shadow duration-500">
 
                 {/* Background image with zoom + reveal */}
                 <div className="absolute inset-0 z-0">
@@ -221,7 +221,7 @@ function TiltCard({
                         style={{ backgroundImage: `url(${item.image})` }}
                     />
                     {/* Gradient overlay always present, deepens on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/50 to-white/10 group-hover:opacity-10 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/50 to-white/10 dark:from-black/60 dark:via-black/30 dark:to-transparent group-hover:opacity-10 transition-opacity duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/20 to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-500" />
                 </div>
 
@@ -301,7 +301,7 @@ export function PersonalLife() {
         <section id="personallife" className="py-16 sm:py-28 relative overflow-hidden">
             {/* ── Background Decorations ── */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-green-900/8 rounded-full blur-[120px]" />
+                <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[120px]" />
                 <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-slate-300/8 rounded-full blur-[120px]" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-fuchsia-200/5 rounded-full blur-[120px]" />
 
@@ -347,7 +347,7 @@ export function PersonalLife() {
                     <h2 className="text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight text-foreground mb-5 leading-[1.08]">
                         Personal Life{" "}
                         <span className="relative inline-block">
-                            <span className="relative z-10 bg-gradient-to-r from-green-700 via-green-600 to-green-800 bg-clip-text text-transparent">
+                            <span className="relative z-10 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
                                 &amp; Hobbies
                             </span>
                             {/* Underline swoosh */}
@@ -369,9 +369,9 @@ export function PersonalLife() {
                                 />
                                 <defs>
                                     <linearGradient id="hg" x1="0" y1="0" x2="220" y2="0" gradientUnits="userSpaceOnUse">
-                                        <stop stopColor="#166534" />
-                                        <stop offset="0.5" stopColor="#15803d" />
-                                        <stop offset="1" stopColor="#14532d" />
+                                        <stop stopColor="var(--primary)" />
+                                        <stop offset="0.5" stopColor="var(--primary)" stopOpacity="0.8" />
+                                        <stop offset="1" stopColor="var(--primary)" stopOpacity="0.6" />
                                     </linearGradient>
                                 </defs>
                             </svg>

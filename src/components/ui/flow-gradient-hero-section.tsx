@@ -2,6 +2,7 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { useTheme } from "next-themes";
 
 interface LiquidGradientProps {
     title?: string;
@@ -154,11 +155,25 @@ class GradientBackground {
     }
     update(delta: number) { if (!this.isPaused) this.uniforms.uTime.value += delta; }
     setTheme(isDark: boolean) {
-        // Always force the warm cream-sage theme regardless of OS settings
-        this.uniforms.uColor1.value.set(0.72, 0.82, 0.72); // Soft Sage Green
-        this.uniforms.uColor2.value.set(0.78, 0.87, 0.76); // Warm Mint
-        this.uniforms.uDarkNavy.value.set(0.957, 0.933, 0.878); // Warm Beige (#f4eee0)
-        this.sceneManager.scene.background = new THREE.Color(0xf4eee0);
+        if (isDark) {
+            this.uniforms.uColor1.value.set(0.12, 0.22, 0.42); // Deep Blue
+            this.uniforms.uColor2.value.set(0.18, 0.27, 0.56); // Indigo
+            this.uniforms.uColor3.value.set(0.28, 0.30, 0.62); // Slate Purple
+            this.uniforms.uColor4.value.set(0.20, 0.28, 0.48); // Deep Slate
+            this.uniforms.uColor5.value.set(0.15, 0.24, 0.44); // Midnight Blue
+            this.uniforms.uColor6.value.set(0.05, 0.13, 0.27); // Darkest Blue
+            this.uniforms.uDarkNavy.value.set(0.008, 0.031, 0.09); // #020817 Slate 950
+            this.sceneManager.scene.background = new THREE.Color(0x020817);
+        } else {
+            this.uniforms.uColor1.value.set(0.72, 0.82, 0.72); // Soft Sage Green
+            this.uniforms.uColor2.value.set(0.78, 0.87, 0.76); // Warm Mint
+            this.uniforms.uColor3.value.set(0.88, 0.90, 0.82); // Cream-Green
+            this.uniforms.uColor4.value.set(0.80, 0.88, 0.78); // Pale Green
+            this.uniforms.uColor5.value.set(0.75, 0.84, 0.74); // Muted Sage
+            this.uniforms.uColor6.value.set(0.95, 0.93, 0.87); // Warm Cream
+            this.uniforms.uDarkNavy.value.set(0.957, 0.933, 0.878); // Warm Beige (#f4eee0)
+            this.sceneManager.scene.background = new THREE.Color(0xf4eee0);
+        }
     }
     onResize(w: number, h: number) {
         const viewSize = this.sceneManager.getViewSize();
@@ -248,20 +263,20 @@ class App {
 export default function LiquidGradient({}: LiquidGradientProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const appRef = useRef<any>(null);
+    const { theme } = useTheme();
 
-    // Platform theme detection
     useEffect(() => {
-        if (appRef.current) appRef.current.setTheme(false);
-    }, []);
+        if (appRef.current) appRef.current.setTheme(theme === "dark");
+    }, [theme]);
 
     useEffect(() => {
         const container = containerRef.current;
         if (!container) return;
         if (appRef.current) appRef.current.cleanup();
         appRef.current = new App(container);
-        appRef.current.setTheme(false);
+        appRef.current.setTheme(theme === "dark");
         return () => { if (appRef.current) appRef.current.cleanup(); };
-    }, []);
+    }, [theme]);
 
 
     return (

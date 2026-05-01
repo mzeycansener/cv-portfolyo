@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Languages, Menu, X } from "lucide-react";
+import { Languages, Menu, X, Sun, Moon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "next-themes";
 
 const navLinks = {
     tr: [
@@ -27,6 +28,12 @@ export function Navbar() {
     const [activeSection, setActiveSection] = useState("");
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { language, toggleLanguage } = useLanguage();
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         let ticking = false;
@@ -120,6 +127,21 @@ export function Navbar() {
                                 {language === "tr" ? "EN" : "TR"}
                             </span>
                         </button>
+
+                        {/* Theme Toggle */}
+                        {mounted && (
+                            <button
+                                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                                className="flex items-center justify-center w-9 h-9 shrink-0 rounded-full border border-primary/20 bg-primary/5 hover:bg-primary/15 active:scale-95 transition-all duration-200"
+                                title={theme === "dark" ? "Light Mode" : "Dark Mode"}
+                            >
+                                {theme === "dark" ? (
+                                    <Sun className="w-4 h-4 text-primary" />
+                                ) : (
+                                    <Moon className="w-4 h-4 text-primary" />
+                                )}
+                            </button>
+                        )}
 
                         {/* Mobile Hamburger Button */}
                         <button

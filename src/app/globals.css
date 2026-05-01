@@ -18,6 +18,37 @@
   --border: #d5ccba;           /* Beige border */
 
   --radius: 0.75rem;
+
+  --card: rgba(255, 255, 255, 0.7);
+  --card-foreground: #1c2e22;
+  --card-border: rgba(255, 255, 255, 0.6);
+
+  --bg-gradient-1: hsla(113, 15%, 85%, 0.6);
+  --bg-gradient-2: hsla(42, 33%, 89%, 0.5);
+  --bg-gradient-3: hsla(113, 20%, 90%, 0.4);
+}
+
+.dark {
+  --background: #020817;       /* Deep slate/blue black */
+  --foreground: #f8fafc;       /* Slate 50 text */
+
+  --primary: #3b82f6;          /* Blue 500 for vibrant contrast */
+  --primary-foreground: #ffffff; /* White text on primary */
+  --secondary: #1e293b;        /* Slate 800 */
+  --secondary-foreground: #f8fafc; /* Slate 50 text */
+  --accent: #1e293b;           /* Slate 800 */
+  --accent-foreground: #f8fafc;
+  --muted: #0f172a;            /* Slate 900 */
+  --muted-foreground: #94a3b8; /* Slate 400 */
+  --border: #1e293b;           /* Slate 800 */
+
+  --card: rgba(15, 23, 42, 0.6);
+  --card-foreground: #f8fafc;
+  --card-border: rgba(255, 255, 255, 0.1);
+
+  --bg-gradient-1: hsla(220, 100%, 50%, 0.12); /* Subtle blue glow */
+  --bg-gradient-2: hsla(280, 100%, 50%, 0.10); /* Subtle purple glow */
+  --bg-gradient-3: hsla(190, 100%, 50%, 0.12); /* Subtle cyan glow */
 }
 
 @theme default {
@@ -32,6 +63,9 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -56,9 +90,9 @@ body {
   text-rendering: optimizeLegibility;
   /* Subtle ambient gradient blending beige and light green */
   background-image:
-    radial-gradient(at 0% 0%,    hsla(113, 15%, 85%, 0.6)   0px, transparent 55%),
-    radial-gradient(at 100% 0%,  hsla(42, 33%, 89%, 0.5)    0px, transparent 55%),
-    radial-gradient(at 50% 100%, hsla(113, 20%, 90%, 0.4)   0px, transparent 55%);
+    radial-gradient(at 0% 0%,    var(--bg-gradient-1)   0px, transparent 55%),
+    radial-gradient(at 100% 0%,  var(--bg-gradient-2)   0px, transparent 55%),
+    radial-gradient(at 50% 100%, var(--bg-gradient-3)   0px, transparent 55%);
   background-attachment: fixed;
   /* Safe area insets for notch/bottom bar on mobile */
   padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -66,7 +100,7 @@ body {
 
 /* Text selection color */
 ::selection {
-  background-color: rgba(30, 63, 34, 0.15);
+  background-color: color-mix(in srgb, var(--primary) 20%, transparent);
   color: var(--foreground);
 }
 
@@ -79,11 +113,24 @@ body {
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.90);
+  background: var(--card);
+  color: var(--card-foreground);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.80);
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.07);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass {
+  background: rgba(2, 8, 23, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark .glass-card {
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.6);
 }
 
 /* Hide scrollbar utility */

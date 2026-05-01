@@ -42,6 +42,24 @@ interface TimelineItem {
 
 const timelineData: TimelineItem[] = [
     {
+        id: 4,
+        type: "experience",
+        icon: <Briefcase className="w-5 h-5" />,
+        date: { tr: "Nisan 2026 - Günümüz", en: "April 2026 - Present" },
+        title: { tr: "Satış & Pazarlama Stajyeri", en: "Sales & Marketing Intern" },
+        organization: { tr: "k12 Bilişim ve EduPage Türkiye", en: "k12 Bilisim & EduPage Turkey" },
+        image: "/204408_258650.jpeg",
+        description: {
+            tr: "k12 Bilişim ve EduPage Türkiye bünyesinde Satış ve Pazarlama stajyeri olarak müşteri ilişkileri, pazar analizi ve eğitim teknolojileri pazarlaması üzerine görev alıyorum.",
+            en: "Working as a Sales and Marketing Intern at k12 Bilisim and EduPage Turkey, focusing on customer relations, market analysis, and EdTech marketing."
+        },
+        badges: {
+            tr: ["Satış", "Pazarlama", "Eğitim Teknolojileri"],
+            en: ["Sales", "Marketing", "EdTech"]
+        },
+        highlights: { tr: [], en: [] }
+    },
+    {
         id: 1,
         type: "experience",
         icon: <Briefcase className="w-5 h-5" />,
@@ -188,12 +206,12 @@ export function ExperienceTimeline() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setSelectedItem(null)}
-                            className="fixed inset-0 bg-white/80 backdrop-blur-md z-50"
+                            className="fixed inset-0 bg-background/80 backdrop-blur-md z-50"
                         />
                         <div className="fixed inset-0 flex items-center justify-center p-4 sm:p-6 z-50 pointer-events-none">
                             <motion.div
                                 layoutId={`timeline-card-${selectedItem.id}`}
-                                className="w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-[#f4eee0] rounded-3xl shadow-2xl pointer-events-auto flex flex-col relative"
+                                className="w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-card rounded-3xl shadow-2xl pointer-events-auto flex flex-col relative border border-border"
                             >
                                 <button
                                     onClick={() => setSelectedItem(null)}

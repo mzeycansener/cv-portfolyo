@@ -71,7 +71,7 @@ export function Contact() {
                     >
                         <GlassCard hoverEffect={false} className="border-none shadow-none bg-transparent p-0">
                             <div className="flex items-center space-x-4 sm:space-x-6 mb-6 sm:mb-8 group">
-                                <div className="bg-white/50 p-3 sm:p-4 rounded-xl border border-white/20 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
+                                <div className="bg-card p-3 sm:p-4 rounded-xl border border-border group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
                                     <Mail className="w-6 sm:w-8 h-6 sm:h-8 text-primary" />
                                 </div>
                                 <div className="min-w-0">
@@ -83,7 +83,7 @@ export function Contact() {
                             </div>
 
                             <div className="flex items-center space-x-4 sm:space-x-6 mb-6 sm:mb-8 group">
-                                <div className="bg-white/50 p-3 sm:p-4 rounded-xl border border-white/20 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
+                                <div className="bg-card p-3 sm:p-4 rounded-xl border border-border group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
                                     <Phone className="w-6 sm:w-8 h-6 sm:h-8 text-primary" />
                                 </div>
                                 <div>
@@ -93,7 +93,7 @@ export function Contact() {
                             </div>
 
                             <div className="flex items-center space-x-4 sm:space-x-6 group">
-                                <div className="bg-white/50 p-3 sm:p-4 rounded-xl border border-white/20 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
+                                <div className="bg-card p-3 sm:p-4 rounded-xl border border-border group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
                                     <MapPin className="w-6 sm:w-8 h-6 sm:h-8 text-primary" />
                                 </div>
                                 <div>
@@ -110,14 +110,14 @@ export function Contact() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                     >
-                        <GlassCard className="bg-white/70">
+                        <GlassCard>
                             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-foreground">{t.nameLabel}</label>
                                         <input
                                             type="text"
-                                            className="w-full px-4 py-3 rounded-xl bg-white/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/60"
+                                            className="w-full px-4 py-3 rounded-xl bg-background/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/60"
                                             placeholder={t.namePlaceholder}
                                         />
                                     </div>
@@ -125,7 +125,7 @@ export function Contact() {
                                         <label className="text-sm font-medium text-foreground">{t.emailLabel}</label>
                                         <input
                                             type="email"
-                                            className="w-full px-4 py-3 rounded-xl bg-white/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/60"
+                                            className="w-full px-4 py-3 rounded-xl bg-background/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/60"
                                             placeholder={t.emailPlaceholder}
                                         />
                                     </div>
@@ -135,7 +135,7 @@ export function Contact() {
                                     <label className="text-sm font-medium text-foreground">{t.messageLabel}</label>
                                     <textarea
                                         rows={5}
-                                        className="w-full px-4 py-3 rounded-xl bg-white/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none placeholder:text-muted-foreground/60"
+                                        className="w-full px-4 py-3 rounded-xl bg-background/50 border border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none placeholder:text-muted-foreground/60"
                                         placeholder={t.messagePlaceholder}
                                     />
                                 </div>

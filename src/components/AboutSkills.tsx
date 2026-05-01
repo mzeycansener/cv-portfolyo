@@ -287,8 +287,7 @@ function TShapedSkills() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -16 }}
                             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                            className="w-full flex flex-col rounded-[32px] overflow-hidden shadow-xl border border-border/30"
-                            style={{ background: `linear-gradient(160deg, #f9f6f0 0%, #eef4f0 100%)` }}
+                            className="w-full flex flex-col rounded-[32px] overflow-hidden shadow-xl border border-border/30 bg-gradient-to-br from-[#f9f6f0] to-[#eef4f0] dark:from-secondary dark:to-background"
                         >
                             {/* Header with accent color */}
                             <div
@@ -342,7 +341,7 @@ function TShapedSkills() {
                                     {selectedSkill.techStack.map((tech: TechItem, i: number) => (
                                         <div key={i} className="flex flex-col items-center gap-2 group/tech">
                                             <div
-                                                className="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 bg-white border border-border/40 group-hover/tech:scale-110"
+                                                className="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 bg-white dark:bg-secondary/50 border border-border/40 group-hover/tech:scale-110"
                                                 style={{ boxShadow: `0 4px 12px -4px ${active.accent}22` }}
                                             >
                                                 <tech.icon className="w-5 h-5" style={{ color: active.accent }} />
@@ -400,8 +399,9 @@ function TShapedSkills() {
                             transition={{ duration: 0.3 }}
                         >
                             <div
+                                className="bg-[#f9f6f0] dark:bg-secondary/20"
                                 style={{ height: 'clamp(280px, 55vw, 450px)', position: 'relative', borderRadius: 32, overflow: 'hidden',
-                                    background: `linear-gradient(160deg, #f9f6f0 0%, ${active.accent}10 100%)`,
+                                    backgroundImage: `linear-gradient(160deg, transparent 0%, ${active.accent}10 100%)`,
                                     border: `1px solid ${active.accent}25`,
                                     boxShadow: `0 8px 32px -8px ${active.accent}22`
                                 }}

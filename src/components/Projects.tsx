@@ -202,7 +202,7 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
 
     return (
         <div 
-            className="relative w-full h-full group bg-[#f4eee0]" 
+            className="relative w-full h-full group bg-background/50" 
             onClick={(e) => e.stopPropagation()}
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
@@ -315,7 +315,7 @@ export function Projects() {
                             className={`group relative ${project.colSpan}`}
                         >
                             <GlassCard
-                                className="h-full flex flex-col justify-between overflow-hidden p-0 border border-border/50 bg-white/40 hover:bg-white/60 transition-colors cursor-pointer group hover:shadow-xl"
+                                className="h-full flex flex-col justify-between overflow-hidden p-0 bg-card hover:bg-card hover:brightness-105 transition-all cursor-pointer group hover:shadow-xl"
                                 onClick={() => setActiveProject(project)}
                             >
                                 {/* Expanded Indicator */}
@@ -324,7 +324,7 @@ export function Projects() {
                                 </div>
 
                                 {/* Image Placeholder with Gradients */}
-                                <div className={`w-full h-64 sm:h-72 relative overflow-hidden bg-[#f4eee0]`}>
+                                <div className={`w-full h-64 sm:h-72 relative overflow-hidden bg-background/50`}>
                                     {project.images && project.images.length > 0 && (
                                         <img
                                             src={project.images[0]}
@@ -335,11 +335,11 @@ export function Projects() {
                                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
                                     <motion.div
                                         className="absolute inset-0 scale-100 group-hover:scale-105 transition-transform duration-700 ease-in-out"
-                                        style={{ backgroundImage: "linear-gradient(to top, rgba(244,238,224,0.9), transparent 50%)" }}
+                                        style={{ backgroundImage: "linear-gradient(to top, var(--card), transparent 50%)" }}
                                     />
                                 </div>
 
-                                <div className="p-4 sm:p-6 md:p-8 flex-grow flex flex-col justify-between relative z-10 bg-white/50 backdrop-blur-xl border-t border-white/20">
+                                <div className="p-4 sm:p-6 md:p-8 flex-grow flex flex-col justify-between relative z-10 bg-transparent border-t border-border/30">
                                     <div>
                                         <h3 className="text-xl sm:text-2xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">{project.title}</h3>
                                         <p className="text-muted-foreground mb-6 line-clamp-2 md:line-clamp-3 leading-relaxed">{project.description[language]}</p>
@@ -369,7 +369,7 @@ export function Projects() {
                         initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
                         animate={{ opacity: 1, backdropFilter: "blur(12px)" }}
                         exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 md:p-10 bg-white/40 backdrop-blur-xl"
+                        className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 md:p-10 bg-background/80 backdrop-blur-xl"
                         onClick={() => setActiveProject(null)}
                     >
                         <motion.div
@@ -378,7 +378,7 @@ export function Projects() {
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
                             transition={{ type: "spring", damping: 30, stiffness: 350 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="w-full max-w-6xl bg-white/90 backdrop-blur-3xl border border-white/40 shadow-2xl rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col md:flex-row max-h-[95vh] relative ring-1 ring-black/5"
+                            className="w-full max-w-6xl bg-card backdrop-blur-3xl border border-border shadow-2xl rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col md:flex-row max-h-[95vh] relative ring-1 ring-black/5"
                         >
                             {/* Glowing effect inside modal */}
                             <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5 opacity-50 pointer-events-none" />
@@ -392,12 +392,12 @@ export function Projects() {
                             </button>
 
                             {/* Left Side: Image Carousel */}
-                            <div className="w-full h-80 sm:h-96 md:h-auto md:w-[55%] lg:w-[60%] relative bg-[#f4eee0] overflow-hidden shrink-0 shadow-[inset_-10px_0_20px_rgba(0,0,0,0.05)]">
+                            <div className="w-full h-80 sm:h-96 md:h-auto md:w-[55%] lg:w-[60%] relative bg-background/50 overflow-hidden shrink-0 shadow-[inset_-10px_0_20px_rgba(0,0,0,0.05)]">
                                 <ImageCarousel images={activeProject.images || []} />
                             </div>
 
                             {/* Right Side: Content */}
-                            <div className="w-full md:w-[45%] lg:w-[40%] flex flex-col h-full bg-white/40 backdrop-blur-xl relative z-20">
+                            <div className="w-full md:w-[45%] lg:w-[40%] flex flex-col h-full bg-transparent relative z-20">
 
                                 <div className="p-6 sm:p-8 md:p-10 pb-6 flex-grow overflow-y-auto">
                                     <h3 className="text-3xl sm:text-4xl font-extrabold mb-4 text-foreground pr-10 tracking-tight leading-tight">{activeProject.title}</h3>
@@ -471,7 +471,7 @@ export function Projects() {
                                 </div>
 
                                 {/* Bottom Action Bar */}
-                                <div className="p-6 sm:p-8 border-t border-border/50 bg-white/50 backdrop-blur-md shrink-0 flex flex-col sm:flex-row items-center gap-4">
+                                <div className="p-6 sm:p-8 border-t border-border/30 bg-transparent shrink-0 flex flex-col sm:flex-row items-center gap-4">
                                     {activeProject.link && (
                                         <a href={activeProject.link} target={activeProject.link === "#" ? "_self" : "_blank"} rel="noopener noreferrer" className="w-full sm:flex-1 group">
                                             <Button className="w-full h-12 gap-2 text-base font-medium shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300" variant="primary">

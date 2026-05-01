@@ -90,7 +90,7 @@ export function Hero() {
 
                         <div className="relative z-10 w-full max-w-[260px] sm:max-w-[350px] lg:max-w-[450px] aspect-[3/4] group">
                             {/* Animated Border Frame */}
-                            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-primary via-green-700 to-secondary opacity-15 group-hover:opacity-30 blur-sm transition-opacity duration-700" />
+                            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-primary via-primary/50 to-secondary opacity-15 group-hover:opacity-30 blur-sm transition-opacity duration-700" />
 
                             {/* Main Image Container */}
                             <div className="relative h-full w-full rounded-2xl overflow-hidden border border-white/20 shadow-2xl backdrop-blur-sm bg-white/5">

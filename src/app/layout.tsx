@@ -51,7 +51,7 @@ export const viewport: Viewport = {
   userScalable: true,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f4eee0" },
-    { media: "(prefers-color-scheme: dark)", color: "#1e3f22" },
+    { media: "(prefers-color-scheme: dark)", color: "#020817" },
   ],
 };
 
@@ -61,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased min-h-screen selection:bg-primary/20 selection:text-primary relative`}>
         <Providers>
           <LiquidGradient showPauseButton={false} />
