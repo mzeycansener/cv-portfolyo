@@ -77,7 +77,7 @@ export const cards = [
         icon: Database,
         color: "#172554",
         accent: "#3b82f6",
-        image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=1000&auto=format&fit=crop",
+        image: "/database_dashboard.png",
         description: { 
             tr: "MySQL ve Mekansal Veritabanları (Spatial DB) ile ileri seviye ilişkisel modelleme yapıyorum. Karmaşık şema tasarımı, sorgu optimizasyonu ve büyük ölçekli veri mimarisinde deneyim sahibiyim.", 
             en: "Advanced relational modeling with MySQL and Spatial Databases. Experienced in complex schema design, query optimization, and large-scale data architecture." 
@@ -111,7 +111,7 @@ export const cards = [
         icon: PieChart,
         color: "#16001a",
         accent: "#a855f7",
-        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1000&auto=format&fit=crop",
+        image: "/kvkk_privacy.png",
         description: { 
             tr: "Finansal ve Yönetim Muhasebesi ilkeleriyle proje bütçeleme ve ROI analizi yapıyorum. KVKK uyumluluğu, fikri mülkiyet hakları ve dijital etik çerçevesinde güvenli sistemler tasarlıyorum.", 
             en: "Project budgeting and ROI analysis using Financial and Management Accounting principles. Designing secure systems within the framework of GDPR compliance, intellectual property rights, and digital ethics." 

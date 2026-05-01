@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Briefcase, GraduationCap, Globe, X } from "lucide-react";
+import React, { useState, useRef, useEffect } from 'react';
+import { Briefcase, GraduationCap, Globe, X, Hexagon } from "lucide-react";
 import { Timeline } from "@/components/ui/timeline";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface Highlight {
@@ -157,7 +157,34 @@ const timelineData: TimelineItem[] = [
 
 export function ExperienceTimeline() {
     const [selectedItem, setSelectedItem] = useState<TimelineItem | null>(null);
+    const [isVisible, setIsVisible] = useState(false);
+    
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const springX = useSpring(mouseX, { damping: 35, stiffness: 300, mass: 0.5 });
+    const springY = useSpring(mouseY, { damping: 35, stiffness: 300, mass: 0.5 });
+    
+    const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const { language } = useLanguage();
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        mouseX.set(e.clientX);
+        mouseY.set(e.clientY);
+    };
+
+    const handleMouseEnter = (item: TimelineItem) => {
+        if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+        setSelectedItem(item);
+        setIsVisible(true);
+    };
+
+    const handleMouseLeave = () => {
+        closeTimeoutRef.current = setTimeout(() => {
+            setSelectedItem(null);
+            setIsVisible(false);
+        }, 100);
+    };
 
     const t = {
         tr: { highlightsTitle: "Öne Çıkanlar", keywordsTitle: "Anahtar Kelimeler" },
@@ -180,6 +207,8 @@ export function ExperienceTimeline() {
                     <div key={item.id}>
                         <motion.div
                             layoutId={`timeline-card-${item.id}`}
+                            onMouseEnter={() => handleMouseEnter(item)}
+                            onMouseLeave={handleMouseLeave}
                             onClick={() => setSelectedItem(item)}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
@@ -192,8 +221,9 @@ export function ExperienceTimeline() {
 
                             <GlassCard className="p-6 relative z-10 border-transparent hover:border-primary/30 transition-colors">
                                 <div className="flex items-center gap-3 mb-3">
-                                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                                        {item.icon}
+                                    <div className="relative p-2 rounded-lg bg-primary/10 text-primary">
+                                        <Hexagon className="w-8 h-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 rotate-12" />
+                                        <div className="relative z-10">{item.icon}</div>
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold text-foreground">{item.title[language]}</h3>
@@ -225,23 +255,89 @@ export function ExperienceTimeline() {
     }));
 
     return (
-        <section id="experience" className="py-24 bg-muted/30 relative">
+        <section 
+            id="experience" 
+            onMouseMove={handleMouseMove}
+            className="py-24 bg-muted/30 relative overflow-visible"
+        >
             <Timeline data={convertedData} />
 
             <AnimatePresence>
                 {selectedItem && (
-                    <>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ 
+                            opacity: isVisible ? 1 : 0, 
+                            scale: isVisible ? 1 : 0.8 
+                        }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                        className="pointer-events-none fixed z-[100] overflow-hidden rounded-3xl shadow-2xl border border-border hidden lg:block"
+                        style={{
+                            width: "450px",
+                            left: 40,
+                            top: -150,
+                            x: springX,
+                            y: springY,
+                        }}
+                    >
+                        <div className="w-full bg-card flex flex-col relative">
+                            {/* Reusing the design as requested */}
+                            <div className="h-40 relative w-full overflow-hidden shrink-0">
+                                <img
+                                    src={selectedItem.image}
+                                    alt={selectedItem.title[language]}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+                                
+                                <div className="absolute bottom-4 left-4 right-4 flex items-end gap-3">
+                                    <div className="relative p-2 rounded-lg bg-primary/20 text-primary backdrop-blur-md border border-primary/30">
+                                        <Hexagon className="w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 -rotate-12" />
+                                        <div className="relative z-10">{selectedItem.icon}</div>
+                                    </div>
+                                    <div>
+                                        <h2 className="text-lg font-bold text-foreground leading-tight">
+                                            {selectedItem.title[language]}
+                                        </h2>
+                                        <p className="text-primary text-xs font-medium">{selectedItem.organization[language]}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-5">
+                                <p className="text-foreground/80 text-xs leading-relaxed mb-4 line-clamp-3">
+                                    {selectedItem.description[language]}
+                                </p>
+                                
+                                <div className="flex flex-wrap gap-2">
+                                    {selectedItem.badges[language].map((badge, idx) => (
+                                        <span key={idx} className="px-2 py-0.5 bg-primary/10 rounded-md text-[10px] font-bold text-primary">
+                                            {badge}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Mobile Modal (Existing Design) */}
+            <AnimatePresence>
+                {selectedItem && (
+                    <div className="lg:hidden">
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setSelectedItem(null)}
-                            className="fixed inset-0 bg-background/80 backdrop-blur-md z-50"
+                            className="fixed inset-0 bg-background/80 backdrop-blur-md z-50 cursor-pointer"
                         />
-                        <div className="fixed inset-0 flex items-center justify-center p-4 sm:p-6 z-50 pointer-events-none">
+                        <div className="fixed inset-0 flex items-center justify-center p-4 z-50 pointer-events-none">
                             <motion.div
                                 layoutId={`timeline-card-${selectedItem.id}`}
-                                className="w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-card rounded-3xl shadow-2xl pointer-events-auto flex flex-col relative border border-border"
+                                className="w-full max-w-lg max-h-[80vh] overflow-y-auto bg-card rounded-3xl shadow-2xl pointer-events-auto flex flex-col relative border border-border"
                             >
                                 <button
                                     onClick={() => setSelectedItem(null)}
@@ -259,9 +355,10 @@ export function ExperienceTimeline() {
                                     <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
 
                                     <div className="absolute bottom-6 left-6 right-6 flex items-end gap-4">
-                                        <div className="p-3 rounded-xl bg-primary/20 text-primary backdrop-blur-md border border-primary/30 hidden sm:block">
-                                            {selectedItem.icon}
-                                        </div>
+                                    <div className="relative p-3 rounded-xl bg-primary/20 text-primary backdrop-blur-md border border-primary/30 hidden sm:block">
+                                        <Hexagon className="w-10 h-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 -rotate-12" />
+                                        <div className="relative z-10">{selectedItem.icon}</div>
+                                    </div>
                                         <div>
                                             <div className="flex items-center gap-2 mb-2">
                                                 <span className="px-2.5 py-1 rounded-full bg-primary/20 text-primary text-xs font-bold backdrop-blur-md">
@@ -319,7 +416,7 @@ export function ExperienceTimeline() {
                                 </div>
                             </motion.div>
                         </div>
-                    </>
+                    </div>
                 )}
             </AnimatePresence>
         </section>
