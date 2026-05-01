@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { Github } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 
 export function Footer() {
     const { language } = useLanguage();
@@ -32,6 +32,15 @@ export function Footer() {
                         title="GitHub"
                     >
                         <Github className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/mehmet-zeycan-şener/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-full transition-all duration-300 hover:scale-110 group"
+                        title="LinkedIn"
+                    >
+                        <Linkedin className="w-6 h-6 group-hover:-rotate-12 transition-transform" />
                     </a>
                 </div>
 

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { GlassCard } from "./ui/GlassCard";
 import { Button } from "./ui/Button";
-import { Send, MapPin, Mail, Phone } from "lucide-react";
+import { Send, MapPin, Mail, Phone, Linkedin } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Contact() {
@@ -92,13 +92,25 @@ export function Contact() {
                                 </div>
                             </div>
 
-                            <div className="flex items-center space-x-4 sm:space-x-6 group">
+                            <div className="flex items-center space-x-4 sm:space-x-6 mb-6 sm:mb-8 group">
                                 <div className="bg-card p-3 sm:p-4 rounded-xl border border-border group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
                                     <MapPin className="w-6 sm:w-8 h-6 sm:h-8 text-primary" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-semibold text-muted-foreground mb-1">{t.location}</p>
                                     <p className="text-base sm:text-xl font-bold text-foreground">{t.city}</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center space-x-4 sm:space-x-6 group">
+                                <div className="bg-card p-3 sm:p-4 rounded-xl border border-border group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors shrink-0">
+                                    <Linkedin className="w-6 sm:w-8 h-6 sm:h-8 text-primary" />
+                                </div>
+                                <div>
+                                    <p className="text-sm font-semibold text-muted-foreground mb-1">LinkedIn</p>
+                                    <a href="https://www.linkedin.com/in/mehmet-zeycan-şener/" target="_blank" rel="noopener noreferrer" className="text-base sm:text-xl font-bold text-foreground hover:text-primary transition-colors">
+                                        /in/mehmet-zeycan-şener
+                                    </a>
                                 </div>
                             </div>
                         </GlassCard>
