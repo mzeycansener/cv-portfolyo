@@ -47,15 +47,33 @@ const timelineData: TimelineItem[] = [
         icon: <Briefcase className="w-5 h-5" />,
         date: { tr: "Nisan 2026 - Günümüz", en: "April 2026 - Present" },
         title: { tr: "Satış & Pazarlama Stajyeri", en: "Sales & Marketing Intern" },
-        organization: { tr: "k12 Bilişim ve EduPage Türkiye", en: "k12 Bilisim & EduPage Turkey" },
+        organization: { tr: "k12 Bilişim", en: "k12 Bilisim" },
         image: "/204408_258650.jpeg",
         description: {
-            tr: "k12 Bilişim ve EduPage Türkiye bünyesinde Satış ve Pazarlama stajyeri olarak müşteri ilişkileri, pazar analizi ve eğitim teknolojileri pazarlaması üzerine görev alıyorum.",
-            en: "Working as a Sales and Marketing Intern at k12 Bilisim and EduPage Turkey, focusing on customer relations, market analysis, and EdTech marketing."
+            tr: "k12 Bilişim bünyesinde pazar araştırmaları, müşteri ilişkileri yönetimi ve B2B satış stratejileri üzerine çalışıyorum.",
+            en: "Working at k12 Bilisim focusing on market research, customer relationship management, and B2B sales strategies."
         },
         badges: {
-            tr: ["Satış", "Pazarlama", "Eğitim Teknolojileri"],
-            en: ["Sales", "Marketing", "EdTech"]
+            tr: ["Satış", "Pazarlama", "B2B"],
+            en: ["Sales", "Marketing", "B2B"]
+        },
+        highlights: { tr: [], en: [] }
+    },
+    {
+        id: 5,
+        type: "experience",
+        icon: <Briefcase className="w-5 h-5" />,
+        date: { tr: "Nisan 2026 - Günümüz", en: "April 2026 - Present" },
+        title: { tr: "Eğitim Teknolojileri Pazarlama Stajyeri", en: "EdTech Marketing Intern" },
+        organization: { tr: "EduPage Türkiye", en: "EduPage Turkey" },
+        image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000",
+        description: {
+            tr: "EduPage Türkiye platformunun eğitim kurumlarına tanıtımı, dijital pazarlama kampanyalarının yönetimi ve ürün stratejisi üzerine görev alıyorum.",
+            en: "Promoting the EduPage Turkey platform to educational institutions, managing digital marketing campaigns, and working on product strategy."
+        },
+        badges: {
+            tr: ["EduPage", "Eğitim Teknolojileri", "Dijital Pazarlama"],
+            en: ["EduPage", "EdTech", "Digital Marketing"]
         },
         highlights: { tr: [], en: [] }
     },
@@ -146,50 +164,62 @@ export function ExperienceTimeline() {
         en: { highlightsTitle: "Highlights", keywordsTitle: "Keywords" }
     }[language];
 
-    const convertedData = timelineData.map((item) => ({
-        title: item.date[language],
+    // Group items by their localized date string so identical dates share the same timeline dot
+    const groupedData: Record<string, typeof timelineData> = {};
+    timelineData.forEach((item) => {
+        const dateStr = item.date[language];
+        if (!groupedData[dateStr]) groupedData[dateStr] = [];
+        groupedData[dateStr].push(item);
+    });
+
+    const convertedData = Object.entries(groupedData).map(([dateStr, items]) => ({
+        title: dateStr,
         content: (
-            <div key={item.id} className="mb-8">
-                <motion.div
-                    layoutId={`timeline-card-${item.id}`}
-                    onClick={() => setSelectedItem(item)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="cursor-pointer group relative rounded-2xl overflow-hidden"
-                >
-                    <div
-                        className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500 bg-cover bg-center"
-                        style={{ backgroundImage: `url(${item.image})` }}
-                    />
+            <div className="flex flex-col gap-6 mb-12">
+                {items.map((item) => (
+                    <div key={item.id}>
+                        <motion.div
+                            layoutId={`timeline-card-${item.id}`}
+                            onClick={() => setSelectedItem(item)}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="cursor-pointer group relative rounded-2xl overflow-hidden shadow-lg"
+                        >
+                            <div
+                                className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500 bg-cover bg-center"
+                                style={{ backgroundImage: `url(${item.image})` }}
+                            />
 
-                    <GlassCard className="p-6 relative z-10 border border-primary/10 hover:border-primary/30 transition-colors">
-                        <div className="flex items-center gap-3 mb-3">
-                            <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                                {item.icon}
-                            </div>
-                            <div>
-                                <h3 className="text-xl font-bold text-foreground">{item.title[language]}</h3>
-                                <p className="text-sm text-primary font-medium">{item.organization[language]}</p>
-                            </div>
-                        </div>
-                        <p className="text-muted-foreground text-sm line-clamp-2">
-                            {item.description[language]}
-                        </p>
+                            <GlassCard className="p-6 relative z-10 border-transparent hover:border-primary/30 transition-colors">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                                        {item.icon}
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-bold text-foreground">{item.title[language]}</h3>
+                                        <p className="text-sm text-primary font-medium">{item.organization[language]}</p>
+                                    </div>
+                                </div>
+                                <p className="text-muted-foreground text-sm line-clamp-2">
+                                    {item.description[language]}
+                                </p>
 
-                        <div className="mt-4 flex flex-wrap gap-2">
-                            {item.badges[language].slice(0, 3).map((badge, idx) => (
-                                <span key={idx} className="px-2 py-1 bg-muted rounded-md text-xs font-medium text-muted-foreground">
-                                    {badge}
-                                </span>
-                            ))}
-                            {item.badges[language].length > 3 && (
-                                <span className="px-2 py-1 bg-muted rounded-md text-xs font-medium text-muted-foreground">
-                                    +{item.badges[language].length - 3}
-                                </span>
-                            )}
-                        </div>
-                    </GlassCard>
-                </motion.div>
+                                <div className="mt-4 flex flex-wrap gap-2">
+                                    {item.badges[language].slice(0, 3).map((badge, idx) => (
+                                        <span key={idx} className="px-2 py-1 bg-muted rounded-md text-xs font-medium text-muted-foreground">
+                                            {badge}
+                                        </span>
+                                    ))}
+                                    {item.badges[language].length > 3 && (
+                                        <span className="px-2 py-1 bg-muted rounded-md text-xs font-medium text-muted-foreground">
+                                            +{item.badges[language].length - 3}
+                                        </span>
+                                    )}
+                                </div>
+                            </GlassCard>
+                        </motion.div>
+                    </div>
+                ))}
             </div>
         )
     }));
